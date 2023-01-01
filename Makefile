@@ -1,5 +1,6 @@
-CFLAGS?=-O3
-override CFLAGS+=-MMD -MP
+OPT?=-O3
+CFLAGS?=
+override CFLAGS+=-MMD -MP $(OPT)
 LDFLAGS?=
 
 SRC=main.c
@@ -13,7 +14,7 @@ $(APP):$(patsubst %.c,%.o,$(SRC)) $(STATIC_LIBS)
 	$(CC) $(LDFLAGS) -o $@ $^
 
 cJSON/libcjson.a:
-	$(MAKE) -C cJSON libcjson.a
+	$(MAKE) -C cJSON libcjson.a CFLAGS=$(OPT)
 
 %.o:%.c
 	$(CC) $(CFLAGS) -c $<
