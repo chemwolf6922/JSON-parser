@@ -11,6 +11,16 @@
 
 #define READ_BLOCK_SIZE (4096)
 
+#define HELP_INFO \
+"Usage: JSONParse [-htkl] [-j json] [-p path]\n"\
+"   -h Show this help\n"\
+"   -j JSON string to work on. Read from stdin if not provided\n"\
+"   -p JSON key path string, e.g. '[\"hello\"][\"world\"]'\n"\
+"   -t Output type instead of the value\n"\
+"       types: object array string boolean number null undefined\n"\
+"   -l Output array length instead of the value\n"\
+"   -k Output object key array instead of the value"
+
 #define _macro_to_str(x) #x
 #define _check_expr_print(err,line) fputs("Error["_macro_to_str(line)"]:"err"\n",stderr)
 #define check_expr(expr,err) if(!(expr)) {\
@@ -38,7 +48,7 @@ int main(int argc, char const *argv[])
 
     /** parse options */
     int opt;
-    while((opt = getopt(argc, (char* const*)argv, "tklj:p:"))!=-1)
+    while((opt = getopt(argc, (char* const*)argv, "htklj:p:"))!=-1)
     {
         switch (opt)
         {
@@ -56,6 +66,10 @@ int main(int argc, char const *argv[])
         } break;
         case 'p':{
             path_str = optarg;
+        } break;
+        case 'h':{
+            puts(HELP_INFO);
+            exit(EXIT_SUCCESS);
         } break;
         default:
             break;
